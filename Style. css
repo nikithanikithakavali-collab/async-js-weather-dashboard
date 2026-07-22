@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input:focus {
+  border-color: #3b82f6;
+}
+
+button {
+  padding: 10px 18px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+.status-msg {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.status-msg.error {
+  color: #ef4444;
+}
+
+.hidden {
+  display: none;
+}
+
+.weather-info {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.temp-box {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1e293b;
+  margin: 10px 0 5px;
+}
+
+.description {
+  text-transform: capitalize;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.metrics-grid {
+  display: flex;
+  justify-content: space-around;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric .label {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.metric .value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+}
