@@ -1,0 +1,90 @@
+// OpenWeatherMap Configuration
+const API_KEY = "YOUR_API_KEY"; // Replace with your actual API key
+const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+
+// DOM Element Selectors
+const searchBtn = document.getElementById("searchBtn");
+const cityInput = document.getElementById("cityInput");
+const statusMessage = document.getElementById("statusMessage");
+const weatherDisplay = document.getElementById("weatherDisplay");
+
+const cityNameEl = document.getElementById("cityName");
+const temperatureEl = document.getElementById("temperature");
+const descriptionEl = document.getElementById("description");
+const humidityEl = document.getElementById("humidity");
+const windSpeedEl = document.getElementById("windSpeed");
+
+// 1. Core Async Fetch Function
+async function fetchWeatherData(city) {
+  try {
+    // Show loading state and hide previous weather details
+    setStatusMessage("Loading weather data...", false);
+    weatherDisplay.classList.add("hidden");
+
+    // Modern Fetch API request
+    const response = await fetch(
+      `${BASE_URL}?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
+    );
+
+    // Handle HTTP error responses
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error("City not found. Please try again.");
+      } else {
+        throw new Error("Network error. Unable to retrieve data.");
+      }
+    }
+
+    // Parse JSON response
+    const data = await response.json();
+
+    // Render parsed nested properties to the UI
+    renderWeatherData(data);
+    setStatusMessage("", false); // Clear status message on success
+  } catch (error) {
+    // Comprehensive Error Handling
+    setStatusMessage(error.message, true);
+  }
+}
+
+// 2. Dynamic JSON Parsing & Rendering Function
+function renderWeatherData(data) {
+  // Destructuring nested JSON properties
+  const { name, sys, main, weather, wind } = data;
+
+  cityNameEl.textContent = `${name}, ${sys.country}`;
+  temperatureEl.textContent = Math.round(main.temp);
+  descriptionEl.textContent = weather[0].description;
+  humidityEl.textContent = `${main.humidity}%`;
+  windSpeedEl.textContent = `${wind.speed} m/s`;
+
+  // Make weather section visible
+  weatherDisplay.classList.remove("hidden");
+}
+
+// Helper: Show status or error messages
+function setStatusMessage(msg, isError) {
+  statusMessage.textContent = msg;
+  if (isError) {
+    statusMessage.classList.add("error");
+  } else {
+    statusMessage.classList.remove("error");
+  }
+}
+
+// 3. Event Listeners for Search Functionality
+searchBtn.addEventListener("click", () => {
+  const city = cityInput.value.trim();
+  if (city) {
+    fetchWeatherData(city);
+  } else {
+    setStatusMessage("Please enter a city name.", true);
+  }
+});
+
+// Trigger search when user presses 'Enter' key
+cityInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    searchBtn.click();
+  }
+});
